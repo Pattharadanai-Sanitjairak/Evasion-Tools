@@ -78,10 +78,6 @@ namespace Patcher
     {
         [DllImport("kernel32")]
         public static extern bool VirtualProtect(IntPtr lpAddr, UIntPtr dwSize, uint flNewProt, out uint lpflOldProt);
-        [DllImport("kernel32")]
-        public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-        [DllImport("kernel32")]
-        public static extern IntPtr LoadLibrary(string lpModuleName);
 
         public static void Main()
         {
@@ -105,7 +101,6 @@ namespace Patcher
             VirtualProtect(ptr, new UIntPtr(4), 0x40, out uint old);
             Marshal.Copy(new byte[] { 0x48, 0x31, 0xC0, 0xC3 }, 0, ptr, 4);
         }
-
     }
 
     [System.ComponentModel.RunInstaller(true)]
@@ -119,3 +114,22 @@ namespace Patcher
     }
 }
 ```
+
+## Dependency - Advance
+For the development purpose, it is crucial to include with the proper references.
+
+**System.Management.Automation.dll**
+
+- `C:\Windows\assembly\GAC_MSIL\System.Management.Automation\1.0.0.0__31bf3856ad364e35\System.Management.Automation.dll`
+
+**Microsoft.PowerShell.ConsoleHost.dll**
+
+- `C:\Windows\assembly\GAC_MSIL\Microsoft.PowerShell.ConsoleHost\1.0.0.0__31bf3856ad364e35\Microsoft.PowerShell.ConsoleHost.dll`
+
+**System.Configuration.Install**
+
+- Navigate to "References Manager > Assemblies > `System.Configuration.Install`" on Microsoft Visual Studio.
+
+## Reference - Advance
+This code is modified from [https://github.com/calebstewart/bypass-clm](https://github.com/calebstewart/bypass-clm) to make it more simple to study and learn.
+
