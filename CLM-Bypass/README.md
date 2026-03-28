@@ -53,17 +53,17 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\installutil.exe /logfile= /LogTo
 ```
 
 ## Source Code - Advance
-- It force the DLL that is responsible for PowerShell App Locker integration to loaded in to the current process's memory.
+- **Forced DLL Loading:** It forces the DLL responsible for PowerShell `AppLocker` integration to load into the current process's memory.
 
-- Then, it patch the method for checking PowerShell Language Policy directly on the memory to force it to always return `0` or `FullLanguage`.
+- **Memory Patching:** It patches the method responsible for checking the PowerShell Language Policy directly in memory, forcing it to always return `0` (equivalent to `FullLanguage` mode).
 
-- Then, it reloads the entire PowerShell engine to make the change effective.
+- **Engine Reload:** The entire PowerShell engine is then reloaded to ensure the security policy changes take effect immediately.
 
-- Attach with the override method if it is called with `InstallUtil.exe` on `Uninstaller` method.
+- **Installer Hijacking:** The logic is attached to an override of the Uninstall method, which is triggered when the binary is executed via the trusted Windows utility `InstallUtil.exe`.
 
-- It is possible to add more function that should patch the memory on `AmsiBuffer` to disable AMSI on a new PowerShell session.
+- **AMSI Disabling:** Additional functionality can be added to patch `AmsiScanBuffer` in memory, effectively disabling AMSI for the new PowerShell session.
 
-- IT is possible to add more handling function for integrating with the different LOLBAS rather than the `InstallUtil.exe`.
+- **LOLBAS Integration:** The structure allows for additional handling functions to integrate with different LOLBAS (Living Off The Land Binaries and Scripts) beyond just `InstallUtil.exe`.
 
 ```C#
 using System;
